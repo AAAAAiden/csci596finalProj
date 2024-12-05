@@ -11,6 +11,7 @@ If parallelization were added naively without synchronization (e.g., locks), sha
 1. Single Parallel Region:
 
 The entire MD loop is enclosed in a single #pragma omp parallel block to avoid excessive thread creation and destruction. Threads are initialized once and reused for the entire simulation.
+
 2. Dynamic Work Scheduling:
 
 #pragma omp for schedule(dynamic):
