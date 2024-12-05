@@ -23,7 +23,7 @@ The entire MD loop is enclosed in a single ```#pragma omp parallel``` block to a
 
 **2. Dynamic Work Scheduling:**
 
-#pragma omp for schedule(dynamic):
+```#pragma omp for schedule(dynamic)```:
 Distributes iterations of the loop dynamically among threads. This helps balance the workload if some steps take longer to compute than others.
 
 **What's Next**
