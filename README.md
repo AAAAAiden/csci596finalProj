@@ -7,10 +7,13 @@ The Problem in the Original Code
 
 The original code does not use any parallelization within the MD loop (```for (stepCount = 1; stepCount <= StepLimit; stepCount++)```). This means all computations, including ```single_step()``` and ```eval_props()```, are executed serially. If OpenMP parallelization were introduced incorrectly (e.g., with multiple parallel regions), excessive thread creation and destruction could lead to performance issues.
 
-**2. No Parallelism:**
+**2. Parallelization Strategy and Load Balancing**
 
+MPI Decomposition:
+The domain decomposition is static. If your simulation is inhomogeneous (e.g., atoms cluster in one region), consider using a more dynamic load balancing strategy to ensure each MPI process handles roughly the same computational load.
 
-The lack of parallelism means the computations do not utilize the available CPU cores, leading to inefficient usage of system resources for computationally expensive tasks.
+OpenMP Threading:
+Currently, cells are divided among threads based on a fixed decomposition. Experiment with different OpenMP scheduling policies (static, dynamic, guided) to achieve better load balance among threads. Consider adjusting vthrd[] and thbk[] parameters to ensure that each thread's portion of the domain is roughly equal in terms of computational effort.
 
 
 **3. Shared Resource Contention:**
@@ -29,6 +32,8 @@ The entire MD loop is enclosed in a single ```#pragma omp parallel``` block to a
 ```#pragma omp for schedule(dynamic)```:
 Distributes iterations of the loop dynamically among threads. This helps balance the workload if some steps take longer to compute than others.
 
+**3. Aggregate Messages:**
+Instead of sending/receiving many small messages, combine them into fewer larger messages. Create a single buffer containing all boundary atom data to be sent to a neighbor.
 **What's Next**
 
 measure the preformance of our code on multiple platforms(i.e Tiber cloud)
