@@ -33,6 +33,7 @@ The entire MD loop is enclosed in a single ```#pragma omp parallel``` block to a
 Distributes iterations of the loop dynamically among threads. This helps balance the workload if some steps take longer to compute than others.
 
 **3. Aggregate Messages:**
+
 Instead of sending/receiving many small messages, combine them into fewer larger messages. Create a single buffer containing all boundary atom data to be sent to a neighbor.
 **What's Next**
 
