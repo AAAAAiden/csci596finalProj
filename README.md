@@ -6,6 +6,7 @@ The Problem in the Original Code
 
 
 The original code does not use any parallelization within the MD loop (```for (stepCount = 1; stepCount <= StepLimit; stepCount++)```). This means all computations, including ```single_step()``` and ```eval_props()```, are executed serially. If OpenMP parallelization were introduced incorrectly (e.g., with multiple parallel regions), excessive thread creation and destruction could lead to performance issues.
+
 **2. No Parallelism:**
 
 
